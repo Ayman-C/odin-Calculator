@@ -1,16 +1,52 @@
-// Your calculator is going to contain functions for all of the basic math operators you 
-//typically find on simple calculators, so start by creating functions for the following items 
-//and testing them in your browser’s console.
+let dataCalc={displayValue:"",oldNumber:"",newNumber:"",operator:"+"}
+let operatorTable={"+":add,"-":substract,"*":multiply,"÷":divide}
+numberDisplay()
+clearDisplay()
+operatorDisplay()
 
-//     add
-//     subtract
-//     multiply
-//     divide
+function numberDisplay() {
+    const numbers=document.querySelectorAll(".numbers")
+    const display=document.querySelector(".displayScreen")
+    numbers.forEach(number => { 
+        number.addEventListener("click", evt => { 
+            console.log("before numb Calc")
+            console.log(dataCalc)
+            display.textContent+=evt.target.textContent;
+            dataCalc.newNumber+=evt.target.textContent;
+            console.log("after numb Calc")
+            console.log(dataCalc)
+        })
+    })
+}
 
-// Create a new function operate that takes an operator and 2 numbers and
-// then calls one of the above functions on the numbers.
+function clearDisplay() {
+    const clear=document.querySelector(".clear")
+    const display=document.querySelector(".displayScreen")
+    clear.addEventListener("click", evt => { 
+            display.textContent="";
+            dataCalc.oldNumber="";
+            dataCalc.newNumber="";
+            dataCalc.operator="+";
+    })
+}
 
-
+function operatorDisplay() {
+    const operators=document.querySelectorAll(".operators")
+    const display=document.querySelector(".displayScreen")
+    operators.forEach(operator => { 
+        operator.addEventListener("click", evt => {
+            console.log("before ope Calc")
+            console.log(dataCalc)
+            let result=operate(operatorTable[dataCalc.operator],+dataCalc.oldNumber,+dataCalc.newNumber);
+            dataCalc.oldNumber=result.toString();
+            dataCalc.newNumber="";
+            display.textContent=(evt.target.textContent==="=") ?result : result+evt.target.textContent;
+            dataCalc.operator=(evt.target.textContent==="=") ? dataCalc.operator : evt.target.textContent;
+            console.log("after ope Calc")
+            console.log(dataCalc)
+        })    
+    })
+}
 
 function operate(operator,x,y) {
     return operator(x,y)
