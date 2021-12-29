@@ -3,19 +3,19 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: lightblue;
+    background-color: black;
     margin: 0;
+    font-family:  Helvetica, Arial, sans-serif;
+    font-weight: bold;
 }
 
 header {
     margin: 2.5% 0;
-    font-size: 8vh;
+    font-size: 4vmax;
     color: gray;
     font-weight: bold;
-    font-family:  Helvetica, Arial, sans-serif;
 }
  .calculatorFrame{
-    /* flex:1 0 auto; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,12 +27,17 @@ header {
     background-color: grey;
     width: 100%;
     min-height: 100px;
-   
     margin: 0;
     outline:0.5px solid black;
     border: none;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
+    display: flex;
+    align-items:center;
+    justify-content: right;
+    font-size: 5vmax;
+    color:white;
+    
 }
 .inputArea{
     display: flex;
@@ -42,7 +47,6 @@ header {
 }
 
 button {
-    /* box-sizing: border-box; */
     width:25%;
     height: 0;
     padding:12.5% 0 12.5% 0;
@@ -50,14 +54,11 @@ button {
     outline:0.5px solid black;
     border: none;
     color:white; 
-    font-size: 8vh; 
+    font-size: 4vmax; 
     display: flex;
     align-items: center;
     justify-content: center;
-   
 }
-
-
 
 .misc {
     background-color: darkgray;
@@ -70,19 +71,12 @@ button {
 .equals{
     background-color: darkred;
 }
-.zero{
+.equals{
     flex-grow:1;
 }
-
 
 footer {
     margin-top:2.5%;
     color: gray;
-    font-weight: bold;
-    font-family:  Helvetica, Arial, sans-serif;
-
+    
 }
-
-
-
-
