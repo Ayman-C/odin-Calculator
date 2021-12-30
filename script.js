@@ -1,4 +1,3 @@
-//let data={inputA:"",inputB:"",operator:""}
 let inputA="";
 let inputB="";
 let operator="";
@@ -9,7 +8,8 @@ numberDisplay()
 clear()
 operatorDisplay()
 percentage()
-
+comma()
+toggleSign()
 
 function numberDisplay() {
     const numbers=document.querySelectorAll(".numbers")
@@ -18,17 +18,11 @@ function numberDisplay() {
             display.textContent+=evt.target.textContent;
             if (operator==="") {
                 inputA+=evt.target.textContent;
-                console.log("we are in numbDisp A")
-                console.log(inputA);
-                console.log(inputB);
-                console.log(operator);
+                console.log(typeof inputA)
             }
             else {
                 inputB+=evt.target.textContent;
-                console.log("we are in numbDisp B")
-                console.log(inputA);
-                console.log(inputB);
-                console.log(operator);
+                console.log(typeof inputB)
             }
         })
     })
@@ -49,35 +43,61 @@ function operatorDisplay() {
     operators.forEach(operatorSign => { 
         operatorSign.addEventListener("click", evt => {
             let newOperator=evt.target.textContent;
-            if (inputB===""){
-                operator=(newOperator==="=") ? "" : newOperator;
-                display.textContent=inputA+newOperator;
-                return 
-            }
-            else {
-                inputA=operate(operatorTable[operator],+inputA,+inputB);
+            if (inputB!=="") {
+                inputA=operate(operatorTable[operator],+inputA,+inputB).toString();
                 inputB="";
-                operator= (newOperator==="=") ? "" : newOperator
-                display.textContent=inputA+operator;
-                return
             }
+            operator= (newOperator==="=") ? "" : newOperator
+            display.textContent=inputA+operator;
+            console.log(typeof inputA)
         })    
     })
 }
 function percentage() {
     const percentageBtn=document.querySelector(".percentage")
-    const display=document.querySelector(".displayScreen")
-    
-        percentageBtn.addEventListener("click", evt => { 
-            display.textContent+=evt.target.textContent;
-            inputB=inputB/100;
+    percentageBtn.addEventListener("click", evt => { 
+        if(inputA!=="" && operator==="") {
+                inputA/=100;
+                display.textContent+="%";
+            }
+            else if (inputB!=="") {
+                inputB/=100;
+                display.textContent+="%";
+            }
         })
+}
+
+function toggleSign() {
+    const sign=document.querySelector(".toggle")
+    sign.addEventListener("click", evt => { 
+        if (operator==="") {
+            inputA=(-inputA).toString();
+            display.textContent=inputA;
+        }
+        else {
+            inputB=(-inputB).toString();
+            display.textContent=inputA+operator+"("+inputB+")";
+        }    
+    })
+}
+
+function comma() {
+    const comma=document.querySelector(".comma")
+    comma.addEventListener("click", evt => { 
+        if (operator==="" && !inputA.includes(".")) {
+            inputA+=".";
+            display.textContent+=".";
+        }
+        else if (!inputB.includes(".")) {
+            inputB+=".";
+            display.textContent+=".";
+        }    
+    })
 }
 
 function operate(operator,x,y) {
     return operator(x,y)
 }
-
 function add(x,y) {
     return x+y;
 }
