@@ -1,30 +1,27 @@
-let dataCalc={displayValue:"",oldNumber:"",newNumber:"",operator:"+"}
-let operatorTable={"+":add,"-":substract,"*":multiply,"÷":divide}
+let dataCalc={totalNumber:"",newNumber:"",operator:"+"}
+let operatorTable={"+":add,"-":substract,"*":multiply,"÷":divide,"":null}
+const display=document.querySelector(".displayScreen")
 numberDisplay()
-clearDisplay()
+clear()
 operatorDisplay()
+percentage()
+// clearBtnDisplay()
 
 function numberDisplay() {
     const numbers=document.querySelectorAll(".numbers")
-    const display=document.querySelector(".displayScreen")
     numbers.forEach(number => { 
         number.addEventListener("click", evt => { 
-            console.log("before numb Calc")
-            console.log(dataCalc)
             display.textContent+=evt.target.textContent;
             dataCalc.newNumber+=evt.target.textContent;
-            console.log("after numb Calc")
-            console.log(dataCalc)
         })
     })
 }
 
-function clearDisplay() {
+function clear() {
     const clear=document.querySelector(".clear")
-    const display=document.querySelector(".displayScreen")
     clear.addEventListener("click", evt => { 
             display.textContent="";
-            dataCalc.oldNumber="";
+            dataCalc.totalNumber="";
             dataCalc.newNumber="";
             dataCalc.operator="+";
     })
@@ -32,20 +29,29 @@ function clearDisplay() {
 
 function operatorDisplay() {
     const operators=document.querySelectorAll(".operators")
-    const display=document.querySelector(".displayScreen")
     operators.forEach(operator => { 
         operator.addEventListener("click", evt => {
-            console.log("before ope Calc")
-            console.log(dataCalc)
-            let result=operate(operatorTable[dataCalc.operator],+dataCalc.oldNumber,+dataCalc.newNumber);
-            dataCalc.oldNumber=result.toString();
-            dataCalc.newNumber="";
-            display.textContent=(evt.target.textContent==="=") ?result : result+evt.target.textContent;
+            if (dataCalc.newNumber===""){
+                dataCalc.operator=(evt.target.textContent==="=") ? dataCalc.operator : evt.target.textContent;
+                display.textContent=dataCalc.totalNumber+dataCalc.operator
+                return
+             }
+            dataCalc.totalNumber=operate(operatorTable[dataCalc.operator],+dataCalc.totalNumber,+dataCalc.newNumber);;
+            dataCalc.newNumber="";    
+            display.textContent=(evt.target.textContent==="=") ? dataCalc.totalNumber : dataCalc.totalNumber+evt.target.textContent;
             dataCalc.operator=(evt.target.textContent==="=") ? dataCalc.operator : evt.target.textContent;
-            console.log("after ope Calc")
             console.log(dataCalc)
         })    
     })
+}
+function percentage() {
+    const percentageBtn=document.querySelector(".percentage")
+    const display=document.querySelector(".displayScreen")
+    
+        percentageBtn.addEventListener("click", evt => { 
+            display.textContent+=evt.target.textContent;
+            dataCalc.newNumber=dataCalc.newNumber/100;
+        })
 }
 
 function operate(operator,x,y) {
