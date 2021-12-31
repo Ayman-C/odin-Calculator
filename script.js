@@ -1,6 +1,7 @@
 let inputA="";
 let inputB="";
 let operator="";
+let rounding=10000;
 let operatorTable={"+":add,"-":substract,"*":multiply,"÷":divide,"":nullOperator}
 const maxDisplay=document.querySelector(".displayScreen").clientWidth;
 const display=document.querySelector(".displayInput")
@@ -31,13 +32,9 @@ function maxWidthBreach(displayWidth) {
         display.textContent=display.textContent.slice(0,display.textContent.length-1)
         if (operator==="") {
             inputA=display.textContent;
-            console.log("inputA maxwidthbreach")
-            console.log(inputA)
         }
         else if(inputB!=="") {
             inputB=inputB.slice(0,inputB.length-1);
-            console.log("inputB maxwidthbreach")
-            console.log(inputB)
         }
         return true;
     }
@@ -61,22 +58,11 @@ function clearLast() {
     const clearLast=document.querySelector(".clearLast")
     clearLast.addEventListener("click", evt => { 
         if (operator==="") {
-            console.log("*********clearlast");
-            console.log(display.textContent);
-            console.log(inputA);
             inputA=inputA.slice(0,inputA.length-1);
             display.textContent=inputA;
-            console.log(display.textContent);
-            console.log(inputA);
         }
-        else if (inputB!=="") {
-            console.log("*********clearLast");
-            console.log(display.textContent);
-            console.log(inputB);
             inputB=inputB.slice(0,inputB.length-1);
             display.textContent=inputA + operator + inputB;
-            console.log(display.textContent);
-            console.log(inputB);
         }    
         alertMsg.textContent="";
     })
@@ -147,7 +133,7 @@ function comma() {
     })
 }
 function operate(operator,x,y) {
-    return operator(x,y)
+    return  Math.round(operator(x,y)*rounding)/rounding
 }
 function add(x,y) {
     return x+y;
