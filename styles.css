@@ -45,6 +45,9 @@ header {
     align-items: center;
     
 }
+button:hover{
+    opacity:80%;
+}
 
 .displayInput{
     border: none;
