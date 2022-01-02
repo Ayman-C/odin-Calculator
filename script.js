@@ -34,13 +34,11 @@ function clickNumbers () {
 function KeyDownNumbers () {
         window.addEventListener("keydown", (evt)=>{    
              clickTrigger(evt)
-             evt.key==="Escape" ? clear() : ""
         })
 }
 
 function clickTrigger(evt) {
     elementExist(evt) ? document.getElementById(evt.key).click() : ""
-    //evt.key==="Escape" ? document.getElementById("C").click() : ""
     evt.key==="Enter" ? document.getElementById("=").click() : ""
 }
 
