@@ -32,9 +32,7 @@ function clickNumbers () {
     })
 }
 function KeyDownNumbers () {
-        window.addEventListener("keydown", (evt)=>{    
-             clickTrigger(evt)
-        })
+        window.addEventListener("keydown", (evt)=>{ clickTrigger(evt) })
 }
 
 function clickTrigger(evt) {
@@ -57,47 +55,6 @@ function storeInput(operator,inputValue){
     else{
         return inputB+=inputValue;
     }
-
-}
-
-function maxWidthBreach() {
-    displayWidth=display.clientWidth;
-    if (displayWidth>maxDisplay) {
-        alertMsg.textContent="Error Max display reached";
-        display.textContent=display.textContent.slice(0,display.textContent.length-1)
-        if (operator==="") {
-            inputA=display.textContent;
-        }
-        else if(inputB!=="") {
-            inputB=inputB.slice(0,inputB.length-1);
-        }
-    }
-    else{
-        alertMsg.textContent="";
-    }
-}
-
-function clear() {
-    clearBtn.addEventListener("click", evt => { 
-            display.textContent="";
-            inputA="";
-            inputB="";
-            operator="";
-            alertMsg.textContent="";
-    })
-}
-function clearLast() {
-    clearLastBtn.addEventListener("click", evt => { 
-        if (operator==="") {
-            inputA=inputA.slice(0,inputA.length-1);
-            display.textContent=inputA;
-        }
-        else{
-            inputB=inputB.slice(0,inputB.length-1);
-            display.textContent=inputA + operator + inputB;
-        }    
-        alertMsg.textContent="";
-    })
 }
 
 function operatorDisplay() {
@@ -117,20 +74,44 @@ function operatorDisplay() {
         })    
     })
 }
+
+function clear() {
+    clearBtn.addEventListener("click", evt => { 
+        display.textContent="";
+        inputA="";
+        inputB="";
+        operator="";
+        alertMsg.textContent="";
+    })
+}
+function clearLast() {
+    clearLastBtn.addEventListener("click", evt => { 
+        if (operator==="") {
+            inputA=inputA.slice(0,inputA.length-1);
+            display.textContent=inputA;
+        }
+        else{
+            inputB=inputB.slice(0,inputB.length-1);
+            display.textContent=inputA + operator + inputB;
+        }    
+        alertMsg.textContent="";
+    })
+}
+
 function percentage() {
     percentageBtn.addEventListener("click", evt => { 
         if(inputA!=="" && operator==="") {
-                inputA/=100;
-                display.textContent+="%";
-            }
-            else if (inputB!=="") {
-                inputB/=100;
-                display.textContent+="%";
-            }
-            if (maxWidthBreach(display.clientWidth)) {
-                return
-            }
-        })
+            inputA/=100;
+            display.textContent+="%";
+        }
+        else if (inputB!=="") {
+            inputB/=100;
+            display.textContent+="%";
+        }
+        if (maxWidthBreach(display.clientWidth)) {
+            return
+        }
+    })
 }
 
 function toggleSign() {
@@ -149,6 +130,9 @@ function toggleSign() {
 function comma() {
     const comma=document.querySelector(".comma")
     comma.addEventListener("click", evt => { 
+        if (maxWidthBreach(display.clientWidth)) {
+            return
+        }
         if (operator==="" && !inputA.includes(".")) {
             inputA+=".";
             display.textContent+=".";
@@ -157,9 +141,6 @@ function comma() {
             inputB+=".";
             display.textContent+=".";
         }    
-        if (maxWidthBreach(display.clientWidth)) {
-            return
-        }
     })
 }
 function operate(operator,x,y) {
@@ -181,3 +162,22 @@ function nullOperator(x,y){
     return
 }
 
+function maxWidthBreach() {
+    displayWidth=display.clientWidth;
+    if (displayWidth>maxDisplay) {
+        alertMsg.textContent="Error Max display reached";
+        display.textContent=display.textContent.slice(0,display.textContent.length-1)
+        if (operator==="") {
+            inputA=display.textContent;
+        }
+        else if(inputB!=="") {
+            inputB=inputB.slice(0,inputB.length-1);
+            
+        }
+        return true
+    }
+    else{
+        alertMsg.textContent="";
+        return false
+    }
+}
