@@ -3,30 +3,67 @@ let inputB="";
 let operator="";
 let rounding=10000;
 let operatorTable={"+":add,"-":substract,"*":multiply,"÷":divide,"":nullOperator}
-const maxDisplay=document.querySelector(".displayScreen").clientWidth;
+
+const numbers=document.querySelectorAll(".numbers")
 const display=document.querySelector(".displayInput")
 const alertMsg=document.querySelector(".alertMsg")
-numberDisplay()
-clear()
+const clearBtn=document.querySelector(".clear")
+const clearLastBtn=document.querySelector(".clearLast")
+const operators=document.querySelectorAll(".operators")
+const percentageBtn=document.querySelector(".percentage")
+const maxDisplay=document.querySelector(".displayScreen").clientWidth;
+
+clickNumbers()
+KeyDownNumbers()
 operatorDisplay()
 percentage()
 comma()
 toggleSign()
+clear()
 clearLast()
 
-function numberDisplay() {
-    const numbers=document.querySelectorAll(".numbers")
+function clickNumbers () {
     numbers.forEach(number => { 
-        number.addEventListener("click", evt => { 
-            display.textContent+=evt.target.textContent;
-            selectInput(operator,evt.target.textContent)
-            if (maxWidthBreach(display.clientWidth)) {
-                return
-            }
+        number.addEventListener("click", (evt)=>{
+        numberDisplay(evt)  
+        storeInput(operator,evt.target.textContent)   
+        maxWidthBreach()
         })
     })
 }
-function maxWidthBreach(displayWidth) {
+function KeyDownNumbers () {
+        window.addEventListener("keydown", (evt)=>{    
+             clickTrigger(evt)
+             evt.key==="Escape" ? clear() : ""
+        })
+}
+
+function clickTrigger(evt) {
+    elementExist(evt) ? document.getElementById(evt.key).click() : ""
+    //evt.key==="Escape" ? document.getElementById("C").click() : ""
+    evt.key==="Enter" ? document.getElementById("=").click() : ""
+}
+
+function elementExist(evt) {
+    return document.getElementById(evt.key) ? true : false
+}
+
+function numberDisplay(evt) {
+    display.textContent+=evt.target.textContent;
+}
+
+function storeInput(operator,inputValue){
+    if (operator===""){
+        return inputA+=inputValue;
+    }
+    else{
+        return inputB+=inputValue;
+    }
+
+}
+
+function maxWidthBreach() {
+    displayWidth=display.clientWidth;
     if (displayWidth>maxDisplay) {
         alertMsg.textContent="Error Max display reached";
         display.textContent=display.textContent.slice(0,display.textContent.length-1)
@@ -36,17 +73,14 @@ function maxWidthBreach(displayWidth) {
         else if(inputB!=="") {
             inputB=inputB.slice(0,inputB.length-1);
         }
-        return true;
     }
     else{
         alertMsg.textContent="";
-        return false;
     }
 }
 
 function clear() {
-    const clear=document.querySelector(".clear")
-    clear.addEventListener("click", evt => { 
+    clearBtn.addEventListener("click", evt => { 
             display.textContent="";
             inputA="";
             inputB="";
@@ -55,12 +89,12 @@ function clear() {
     })
 }
 function clearLast() {
-    const clearLast=document.querySelector(".clearLast")
-    clearLast.addEventListener("click", evt => { 
+    clearLastBtn.addEventListener("click", evt => { 
         if (operator==="") {
             inputA=inputA.slice(0,inputA.length-1);
             display.textContent=inputA;
         }
+        else{
             inputB=inputB.slice(0,inputB.length-1);
             display.textContent=inputA + operator + inputB;
         }    
@@ -69,7 +103,6 @@ function clearLast() {
 }
 
 function operatorDisplay() {
-    const operators=document.querySelectorAll(".operators")
     operators.forEach(operatorSign => { 
         operatorSign.addEventListener("click", evt => {
             let newOperator=evt.target.textContent;
@@ -87,7 +120,6 @@ function operatorDisplay() {
     })
 }
 function percentage() {
-    const percentageBtn=document.querySelector(".percentage")
     percentageBtn.addEventListener("click", evt => { 
         if(inputA!=="" && operator==="") {
                 inputA/=100;
@@ -151,12 +183,3 @@ function nullOperator(x,y){
     return
 }
 
-function selectInput(condition,inputValue){
-    if (condition===""){
-        return inputA+=inputValue;
-    }
-    else{
-        return inputB+=inputValue;
-    }
-
-}
